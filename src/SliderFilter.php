@@ -29,6 +29,18 @@ class SliderFilter extends Filter
         return $query;
     }
 
+    /**
+     * Get the filter's available options.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function options(Request $request)
+    {
+        return [];
+    }
+
     public function minValue(int $min): self
     {
         return $this->withMeta([ 'min' => $min ]);
