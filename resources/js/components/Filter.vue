@@ -5,7 +5,7 @@
         </h3>
 
         <div class="p-2 pt-6 flex flex-row items-center">
-            <div class="text-xs flex-shrink-0 mr-2">{{ filter.min }}{{ filter.label }}</div>
+            <div class="text-xs flex-shrink-0 mr-2">{{ filter.min }}{{ filterLabel }}</div>
             <vue-slider v-model="sliderValue"
                         :min="filter.min"
                         :max="filter.max"
@@ -18,12 +18,12 @@
                         :enable-cross="false"
                         tooltip="always"
                         :clickable="false"
-                        :tooltipFormatter="val => `${val}${filter.label}`"
+                        :tooltipFormatter="val => `${val}${filterLabel}`"
                         @drag-end="handleChange"
                         width="100%"
                         class="slider"
                         :duration="0"></vue-slider>
-            <div class="text-xs flex-shrink-0 ml-2">{{ filter.max }}{{ filter.label }}</div>
+            <div class="text-xs flex-shrink-0 ml-2">{{ filter.max }}{{ filterLabel }}</div>
         </div>
     </div>
 </template>
@@ -97,7 +97,12 @@
 
             value() {
                 return this.filter.currentValue
+            },
+
+            filterLabel(){
+                return this.filter.label ??  ''
             }
+
         }
     }
 </script>

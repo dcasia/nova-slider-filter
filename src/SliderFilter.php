@@ -51,7 +51,7 @@ class SliderFilter extends Filter
         return $this->withMeta([ 'max' => $max ]);
     }
 
-    public function label(string $label = '万'): self
+    public function label(string $label): self
     {
         return $this->withMeta([ 'label' => $label ]);
     }

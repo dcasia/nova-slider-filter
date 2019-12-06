@@ -10,11 +10,14 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-nullish-coalescing-operator": "^7.7.4",
+        "babel-preset-latest": "^6.24.1",
         "cross-env": "^5.0.0",
-        "laravel-mix": "^1.0"
+        "laravel-mix": "^5.0.0",
+        "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "vue": "^2.5.0",
+        "vue": "^2.6.10",
         "vue-slider-component": "^3.0.44"
     }
 }
