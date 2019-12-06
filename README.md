@@ -4,7 +4,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/digital-creative/nova-slider-filter)](https://packagist.org/packages/digital-creative/nova-slider-filter)
 [![License](https://img.shields.io/packagist/l/digital-creative/nova-slider-filter)](https://github.com/dcasia/nova-slider-filter/blob/master/LICENSE)
 
-A Laravel Nova filter that renders into clickable pills.
+A Laravel Nova filter that renders into slider.
 
 ![SliderFilter in Action](https://raw.githubusercontent.com/dcasia/nova-slider-filter/master/screenshot.png)
 
