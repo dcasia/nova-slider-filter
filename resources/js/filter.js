@@ -1,3 +1,4 @@
+import Filter from './components/Filter.vue';
 Nova.booting((Vue, router, store) => {
-  Vue.component('nova-slider-filter', require('./components/Filter').default)
+  Vue.component('nova-slider-filter', Filter)
 })
