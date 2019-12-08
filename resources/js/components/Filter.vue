@@ -16,7 +16,7 @@
                        :lazy="true"
                        :min="filter.min"
                        :max="filter.max"
-                       :processs-style="processStyle"
+                       :process-style="processStyle"
                        :rail-style="railStyle"
                        :dot-style="dotStyle"
                        :tooltip-style="tooltipStyle"
