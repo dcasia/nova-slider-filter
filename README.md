@@ -4,7 +4,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/digital-creative/nova-slider-filter)](https://packagist.org/packages/digital-creative/nova-slider-filter)
 [![License](https://img.shields.io/packagist/l/digital-creative/nova-slider-filter)](https://github.com/dcasia/nova-slider-filter/blob/master/LICENSE)
 
-A Laravel Nova filter that renders into slider.
+A Laravel Nova filter for picking range between a min/max value.
 
 ![SliderFilter in Action](https://raw.githubusercontent.com/dcasia/nova-slider-filter/master/screenshot.png)
 
@@ -27,17 +27,9 @@ class MyFilter extends SliderFilter {
 
     public function apply(Request $request, $query, $values)
     {
-        // $values will always be an array
+        [ $min, $max ] = $values;   
     }
     
-    public function options(Request $request)
-    {
-        return [
-           'Display Text 1' => 'value-1',
-           'Display Text 2' => 'value-2'
-        ];
-    }
-
 }
 ```
 
@@ -50,6 +42,23 @@ class ExampleNovaResource extends Resource {
     {
         return [
             new MyFilter()
+        ];
+    }
+
+}
+```
+
+You can configure the min/max values as well as the tooltip suffix by calling:
+
+```php
+class ExampleNovaResource extends Resource {
+
+    public function filters(Request $request)
+    {
+        return [
+            (new MyFilter())->minValue(0)
+                            ->maxValue(1000)
+                            ->label('$')
         ];
     }
 

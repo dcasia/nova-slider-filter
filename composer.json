@@ -1,6 +1,6 @@
 {
     "name": "digital-creative/nova-slider-filter",
-    "description": "A Laravel Nova slider filter",
+    "description": "A Laravel Nova filter for picking range between a min/max value.",
     "keywords": [
         "laravel",
         "nova",
