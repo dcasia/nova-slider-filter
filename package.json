@@ -1,23 +1,19 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "watch": "mix watch",
+        "production": "mix --production",
+        "nova:install": "npm --prefix='../../vendor/laravel/nova' ci"
     },
     "devDependencies": {
-        "@babel/plugin-proposal-nullish-coalescing-operator": "^7.7.4",
-        "babel-preset-env": "^1.7.0",
-        "cross-env": "^5.0.0",
-        "laravel-mix": "^5.0.0",
-        "vue-template-compiler": "^2.6.10"
-    },
-    "dependencies": {
-        "vue": "^2.6.10",
-        "vue-slider-component": "^3.0.45"
+        "@vue/compiler-sfc": "^3.3.4",
+        "laravel-mix": "^6.0.49",
+        "mix-tailwindcss": "^1.3.0",
+        "sass": "^1.68.0",
+        "sass-loader": "^13.3.2",
+        "scrollbooster": "^3.0.2",
+        "tailwindcss": "^3.3.3",
+        "vue-loader": "^17.2.2",
+        "vue-slider-component": "^4.1.0-beta.7"
     }
 }

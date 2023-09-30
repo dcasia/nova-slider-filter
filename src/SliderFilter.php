@@ -2,58 +2,66 @@
 
 namespace DigitalCreative\NovaRangeFilter;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
 
-class SliderFilter extends Filter
+abstract class SliderFilter extends Filter
 {
-    /**
-     * The filter's component.
-     *
-     * @var string
-     */
     public $component = 'nova-slider-filter';
 
-    /**
-     * Apply the filter to the given query.
-     *
-     * @param Request $request
-     * @param Builder $query
-     * @param mixed $value
-     *
-     * @return Builder
-     */
-    public function apply(Request $request, $query, $value)
+    public function range(int ...$values): self
     {
-        return $query;
+        sort($values);
+        return $this->withMeta([ 'mode' => 'range', 'min' => min($values), 'max' => max($values), 'values' => $values ]);
+    }
+
+    public function single(int $min, int $max): self
+    {
+        return $this->withMeta([ 'mode' => 'single', 'min' => $min, 'max' => $max ]);
+    }
+
+    public function interval(int $value): self
+    {
+        return $this->withMeta([  'interval' => $value ]);
+    }
+
+    public function minRange(int $min): self
+    {
+        return $this->withMeta([ 'minRange' => $min ]);
+    }
+
+    public function maxRange(int $max): self
+    {
+        return $this->withMeta([ 'maxRange' => $max ]);
     }
 
     /**
-     * Get the filter's available options.
-     *
-     * @param Request $request
-     *
-     * @return array
+     * Possible values: none, hover, always, active
      */
-    public function options(Request $request)
+    public function tooltip(string $type = 'always'): self
     {
-        return [];
+        return $this->withMeta([ 'tooltip' => $type ]);
     }
 
-    public function minValue(int $min): self
+    /**
+     * @see https://nightcatsama.github.io/vue-slider-component/#/basics/marks
+     */
+    public function marks(array|bool $marks): self
     {
-        return $this->withMeta([ 'min' => $min ]);
+        return $this->withMeta([ 'marks' => $marks ]);
     }
 
-    public function maxValue(int $max): self
+    public function enableCross(): self
     {
-        return $this->withMeta([ 'max' => $max ]);
+        return $this->withMeta([ 'enableCross' => true ]);
+    }
+
+    public function disableMinMaxLabels(): self
+    {
+        return $this->withMeta([ 'disableMinMaxLabels' => true ]);
     }
 
     public function label(string $label): self
     {
         return $this->withMeta([ 'label' => $label ]);
     }
-
 }

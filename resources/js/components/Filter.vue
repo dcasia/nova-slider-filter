@@ -1,38 +1,55 @@
 <template>
 
-    <div>
+    <FilterContainer class="nova-slider-filter">
 
-        <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
-            {{ filter.name }}
-        </h3>
+        <span>{{ filter.name }}</span>
 
-        <div class="p-2 pt-6 flex flex-row items-center">
+        <template #filter>
 
-            <div class="text-xs flex-shrink-0 mr-2">{{ filter.min }}{{ filterLabel }}</div>
+            <div class="flex flex-row items-center justify-center"
+                 :class="{
+                    'pt-6': filter.tooltip !== 'never',
+                    'p-2 pb-6': filter.marks !== undefined,
+                 }">
 
-            <VueSlider class="slider"
-                       v-model="value"
-                       width="100%"
-                       :lazy="true"
-                       :min="filter.min"
-                       :max="filter.max"
-                       :process-style="processStyle"
-                       :rail-style="railStyle"
-                       :dot-style="dotStyle"
-                       :tooltip-style="tooltipStyle"
-                       :dot-size="20"
-                       :contained="true"
-                       :enable-cross="false"
-                       tooltip="always"
-                       :clickable="false"
-                       :tooltip-formatter="tooltipFormatter"
-                       :duration="0"/>
+                <div v-if="!filter.disableMinMaxLabels"
+                     class="text-xs flex-shrink-0 mr-2"
+                     @click="value = [ filter.min, value[ 1 ] ]">
 
-            <div class="text-xs flex-shrink-0 ml-2">{{ filter.max }}{{ filterLabel }}</div>
+                    {{ replaceTokens(filterLabel, { value: filter.min }) }}
 
-        </div>
+                </div>
 
-    </div>
+                <VueSlider
+                    v-model="value"
+                    width="100%"
+                    :lazy="true"
+                    :min="filter.min"
+                    :max="filter.max"
+                    :min-range="filter.minRange"
+                    :max-range="filter.maxRange"
+                    :contained="true"
+                    :enable-cross="filter.enableCross || false"
+                    :tooltip="filter.tooltip || 'always'"
+                    :clickable="true"
+                    :interval="filter.interval"
+                    :tooltip-formatter="tooltipFormatter"
+                    :marks="filter.marks"
+                    :duration="0.2"/>
+
+                <div v-if="!filter.disableMinMaxLabels"
+                     class="text-xs flex-shrink-0 ml-2"
+                     @click="value = [ value[ 0 ], filter.max ]">
+
+                    {{ replaceTokens(filterLabel, { value: filter.max }) }}
+
+                </div>
+
+            </div>
+
+        </template>
+
+    </FilterContainer>
 
 </template>
 
@@ -43,98 +60,104 @@
     export default {
         name: 'NovaSliderFilter',
         components: {
-            VueSlider
+            VueSlider,
         },
         props: {
             resourceName: {
                 type: String,
-                required: true
+                required: true,
             },
             filterKey: {
                 type: String,
-                required: true
-            }
-        },
-        data() {
-
-            return {
-                processStyle: {
-                    backgroundColor: 'var(--primary)'
-                },
-                railStyle: {
-                    backgroundColor: '#DADEE1',
-                    borderRadius: '3px'
-                },
-                dotStyle: {
-                    border: '1px solid #E7E8E9',
-                    boxShadow: '0 2px 5px 0 rgba(234,234,234,0.50)'
-                },
-                tooltipStyle: {
-                    backgroundColor: '#191919',
-                    padding: '4px 5px',
-                    fontSize: '10px',
-                    marginBottom: '-5px',
-                    color: '#FFFFFF'
-                }
-            }
-
+                required: true,
+            },
         },
         computed: {
             filter() {
 
                 return this.$store.getters[ `${ this.resourceName }/getFilter` ](
-                    this.filterKey
+                    this.filterKey,
                 )
 
             },
             value: {
                 get() {
 
-                    return this.filter.currentValue || [ this.filter.min, this.filter.max ]
+                    if (this.filter.mode === 'single') {
+                        return this.filter.currentValue || 0
+                    }
+
+                    return Object.values(this.filter.currentValue || [ ...this.filter.values ])
 
                 },
                 set(sliderValue) {
 
                     this.$store.commit(`${ this.resourceName }/updateFilterState`, {
                         filterClass: this.filterKey,
-                        value: sliderValue
+                        value: sliderValue,
                     })
 
                     this.$emit('change')
 
-                }
+                },
             },
             filterLabel() {
-
-                return this.filter.label ?? ''
-
-            }
+                return this.filter.label ?? '{value}'
+            },
         },
         methods: {
+            replaceTokens(template, tokens) {
+
+                for (const [ key, value ] of Object.entries(tokens)) {
+                    template = template.replace(`{${ key }}`, value)
+                }
+
+                return template
+
+            },
             tooltipFormatter(value) {
-                return `${ value }${ this.filterLabel }`
-            }
-        }
+                return this.replaceTokens(this.filterLabel, { value: value })
+            },
+        },
     }
 
 </script>
-
-<style scoped lang="scss">
-
-    .flex-shrink-0 {
-        flex-shrink: 0;
-    }
-
-    .slider {
-        max-width: 312px;
-    }
-
-</style>
 
 <style lang="scss">
 
     $tooltipArrow: 0px;
 
     @import '~vue-slider-component/lib/theme/default.scss';
+
+    .dark .nova-slider-filter {
+
+        .vue-slider-rail {
+            background-color: rgba(var(--colors-gray-700));
+        }
+
+        .vue-slider-process {
+            background-color: rgba(var(--colors-primary-500));
+        }
+
+        .vue-slider-dot-tooltip-inner {
+            color: rgba(var(--colors-gray-400));
+            background: rgba(var(--colors-gray-800));
+        }
+
+    }
+
+    .nova-slider-filter {
+
+        .vue-slider-dot-tooltip-inner {
+            color: rgba(var(--colors-gray-500));
+            font-size: 12px;
+            margin-bottom: -5px;
+            padding: 2px 5px;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            background-color: rgba(var(--colors-gray-200));
+        }
+
+    }
 
 </style>
