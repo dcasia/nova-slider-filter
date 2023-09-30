@@ -1,8 +1,12 @@
 const mix = require('laravel-mix')
 
-mix.setPublicPath('dist')
+require('./nova.mix')
+require('mix-tailwindcss')
+
+mix
+    .setPublicPath('dist')
     .js('resources/js/filter.js', 'js')
-    .babelConfig({
-        presets: [ 'babel-preset-env' ],
-        plugins: [ '@babel/plugin-proposal-nullish-coalescing-operator' ]
-    })
+    .vue({ version: 3 })
+    .postCss('resources/css/filter.css', 'css')
+    .tailwind()
+    .nova('digital-creative/nova-slider-filter')
