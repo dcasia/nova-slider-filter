@@ -7,8 +7,8 @@
 A Laravel Nova filter for picking range between a min/max value.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-slider-filter/main/screenshots/dark.png">
-  <img alt="SliderFilter in Action" src="https://raw.githubusercontent.com/dcasia/nova-slider-filter/main/screenshots/light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-slider-filter/nova4/screenshots/dark.png">
+  <img alt="SliderFilter in Action" src="https://raw.githubusercontent.com/dcasia/nova-slider-filter/nova4/screenshots/light.png">
 </picture>
 
 # Installation
