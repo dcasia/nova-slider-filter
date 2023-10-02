@@ -84,13 +84,24 @@
                 get() {
 
                     if (this.filter.mode === 'single') {
-                        return this.filter.currentValue || 0
+                        return this.filter.currentValue || this.filter.min
                     }
 
                     return Object.values(this.filter.currentValue || [ ...this.filter.values ])
 
                 },
                 set(sliderValue) {
+
+                    if (sliderValue === this.filter.min) {
+                        sliderValue = ''
+                    }
+
+                    if (
+                        Array.isArray(sliderValue) &&
+                        Object.values(this.filter.values).every((value, index) => sliderValue[ index ] === value)
+                    ) {
+                        sliderValue = ''
+                    }
 
                     this.$store.commit(`${ this.resourceName }/updateFilterState`, {
                         filterClass: this.filterKey,

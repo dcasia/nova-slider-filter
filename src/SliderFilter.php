@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace DigitalCreative\NovaRangeFilter;
 
 use Laravel\Nova\Filters\Filter;
@@ -11,6 +13,7 @@ abstract class SliderFilter extends Filter
     public function range(int ...$values): self
     {
         sort($values);
+
         return $this->withMeta([ 'mode' => 'range', 'min' => min($values), 'max' => max($values), 'values' => $values ]);
     }
 
